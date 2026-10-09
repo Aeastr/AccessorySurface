@@ -1,7 +1,7 @@
 <div>
   <h1>AccessorySurface <img src="Resources/icon/icon.png" alt="AccessorySurface icon" width="96" height="96" align="right"></h1>
   <p>Replace a native bottom accessory’s visible surface with your own glass view, while keeping control of its layout and animation.</p>
-  <p><img src="https://img.shields.io/badge/iOS%20%2F%20iPadOS-26%2B-000000?logo=apple" alt="iOS / iPadOS 26+"> <img src="https://img.shields.io/badge/Swift-6.0%2B-F05138?logo=swift&amp;logoColor=white" alt="Swift 6.0+"></p>
+  <p><img src="https://img.shields.io/badge/iOS%20%2F%20iPadOS-18%2B-000000?logo=apple" alt="iOS / iPadOS 18+"> <img src="https://img.shields.io/badge/Swift-6.0%2B-F05138?logo=swift&amp;logoColor=white" alt="Swift 6.0+"></p>
 </div>
 
 ## How it works
@@ -18,7 +18,7 @@ For an app with a package manifest:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Aeastr/AccessorySurface.git", from: "1.0.0")
+    .package(url: "https://github.com/Aeastr/AccessorySurface.git", from: "1.1.0")
 ]
 
 // In your app target’s dependencies:
@@ -40,7 +40,7 @@ final class AccessoryOverlay {
     private var lease: AccessorySourceLease?
     private weak var source: UIView?
     private let glass = UIVisualEffectView(
-        effect: AccessoryGlass.makeInteractiveEffect()
+        effect: AccessoryGlass.makeSurfaceEffect()
     )
 
     @discardableResult
@@ -76,6 +76,20 @@ final class AccessoryOverlay {
 Call `updateLayout()` from your host’s `viewDidLayoutSubviews()` and `remove()` when detaching the overlay. Call `show(source:in:)` again if UIKit replaces the native source instance. Keep the helper alive while its overlay is displayed; releasing its lease restores the native appearance.
 
 This example supplies a resting overlay. Implement your own corner shaping, presentation, animation and interaction around it.
+
+## Earlier systems
+
+The package supports iOS 18 and later. Native tab-bar bottom accessories and
+interactive glass require iOS 26. `AccessoryGlass.makeSurfaceEffect()` returns
+interactive glass on iOS 26+, and a system-material blur on earlier systems.
+`makeInteractiveEffect()` remains available when guarded with iOS 26 availability;
+`applyVariant` returns zero before iOS 26.
+
+On iOS 18, provide your own empty positioning view above the tab bar, for example
+with a safe-area inset on the tab's content. Use that view's converted frame to
+place the same replacement surface. An empty anchor needs no suppression lease.
+The package does not install tab-bar accessories or reserve content space.
+Keep content, presentation and gestures shared between both placement paths.
 
 ## Documentation
 

@@ -10,5 +10,5 @@ UIView * _Nonnull ASRuntimeMorphView(UIView * _Nonnull source);
 - (void)invalidate;
 @end
 
-UIGlassEffect * _Nonnull ASRuntimeMakeInteractiveGlass(NSInteger variant);
+UIGlassEffect * _Nonnull ASRuntimeMakeInteractiveGlass(NSInteger variant) API_AVAILABLE(ios(26.0));
 NSUInteger ASRuntimeApplyGlassVariant(UIView * _Nonnull root, NSInteger variant);

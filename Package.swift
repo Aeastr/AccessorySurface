@@ -6,7 +6,7 @@ import PackageDescription
 
 let package = Package(
     name: "AccessorySurface",
-    platforms: [.iOS("26.0")],
+    platforms: [.iOS(.v18)],
     products: [.library(name: "AccessorySurface", targets: ["AccessorySurface"])],
     targets: [
         .target(name: "AccessoryRuntime", publicHeadersPath: "include"),

@@ -12,8 +12,15 @@ public enum AccessoryGlass {
     /// - Returns: A configured effect when supported, otherwise the standard
     ///   public interactive glass effect. Unsupported indices also fall back.
     ///   The result does not report whether fallback occurred.
+    @available(iOS 26.0, *)
     public static func makeInteractiveEffect(variant: Int = 0) -> UIGlassEffect {
         ASRuntimeMakeInteractiveGlass(variant)
+    }
+
+    /// Uses native interactive glass on iOS 26+, and a system material on iOS 18.
+    public static func makeSurfaceEffect(variant: Int = 0) -> UIVisualEffect {
+        if #available(iOS 26.0, *) { return makeInteractiveEffect(variant: variant) }
+        return UIBlurEffect(style: .systemMaterial)
     }
 
     /// Applies a response to matching native interactions in a view subtree.
@@ -26,6 +33,7 @@ public enum AccessoryGlass {
     /// Call after attachment or layout when native interactions are available.
     @discardableResult
     public static func applyVariant(_ variant: Int, to root: UIView) -> UInt {
-        ASRuntimeApplyGlassVariant(root, variant)
+        guard #available(iOS 26.0, *) else { return 0 }
+        return ASRuntimeApplyGlassVariant(root, variant)
     }
 }

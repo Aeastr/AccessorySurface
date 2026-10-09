@@ -21,3 +21,13 @@ AccessorySurface uses non-public UIKit hooks. Source suppression is required for
 ### Configure Glass
 
 - <doc:GlassResponses>
+
+
+## iOS 18 compatibility
+
+Use `AccessoryGlass.makeSurfaceEffect()` to obtain native interactive glass on
+iOS 26 and later, or a system-material blur on iOS 18. `makeInteractiveEffect()`
+requires iOS 26; response application returns zero on earlier systems. Native
+bottom accessories still require iOS 26. An app-owned empty positioning view on
+iOS 18 supplies geometry without acquiring a source suppression lease; the app
+reserves space and owns the same content, animation and gestures in both cases.
